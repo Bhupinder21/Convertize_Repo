@@ -1,0 +1,76 @@
+*** Settings ***
+Resource          ../Keywords/Application_Functions.txt
+
+*** Test Cases ***
+TestCase1: Navigating to Convertize Web Page
+    [Tags]    DEBUG
+    [Setup]
+    Open Application and Maximize
+    Verify the Home Page title
+    Sleep    2s
+    Input Username
+    Input Application Password
+    Sleep    2s
+    Click on Sign in link
+    Sleep    2s
+    [Teardown]    Close browser
+
+TestCase2:3415-Check if Smart Plugins section appear
+    [Tags]
+    Open Application and Maximize
+    Verify the Home Page title
+    Input Username
+    Input Application Password
+    Click on Sign in link
+    ${href}    Get Location
+    Log To Console    ${href}
+    Log To Console    ${BASE_URL}
+    Run Keyword If    '${href}'=='${BASE_URL}'    Run Keyword And Return Status    Validate Smart Plugins panel for 'My Projects' Tab
+    Run Keyword If    '${href}'=='${PROJECT_URL}'    Run Keyword And Return Status    Validate Smart Plugins panel directly after clicking Design button
+    [Teardown]    Close browser
+
+Test Case3:3416-Check if smart plugins section can be moved/dragged
+    Login to the Application
+    Drag And Drop By Offset    xpath=//div[@id='sc-plugin-selection-menu-container']    50    -35
+    Log to console    Smart Plug-ins section dragged/moved to other position
+
+Test Case4:3417-Check if Dynamic Text plugin can be added and previewed.
+    Login to the Application
+    Comment    Select Frame    id=site-variation-iframe
+    Mouse Over    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]
+    Log To Console    Dynamic Text Plug-in is present
+    Focus    xpath=(//span[@class='ng-binding ng-scope'])[1]
+    Log To Console    Hovered on the help text for Dynamic Text Plug-in
+    ${text}    Get Text    xpath=(//span[@class='ng-binding ng-scope'])[1]
+    Should Be Equal    ${text}    Add dynamic content to your Landing pages
+    Wait Until Element Is Visible    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]
+    Drag And Drop By Offset    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]    1500    50
+    Sleep    5s
+    Log To Console    Please change 2nd locator in Drag and Drop as it would be different according to different testing websites for convertize
+    Log To Console    Dynamic text plug-in drgged/moved to other location
+    Sleep    2s
+    Comment    Select Frame    id=site-variation-iframe
+    Element Should Be Visible    id=ve-selection-overlay
+    Log to console    Dynamic text Plug in has been placed to the Page
+
+Test Case5:3418-Check if Dynamic Text added can be edited.
+    Element Should Be Visible    xpath=//div[@id='ve-dialogue-plugin']
+    Log To Console    Dynamic text Smart Plug-in window should be available to edit text
+    Input Text    xpath=//input[@class='mdl-textfield__input ng-pristine ng-valid ng-valid-required ng-touched']    Test to check
+    Log To Console    Text Entered in the text box
+    Click Button    (//span[@class='mdl-button__ripple-container'])[1]
+    Log To Console    Clicked on Cancel button
+
+Test Case6:3419-Check if Dynamic Text plugin can be added with no default text.
+    Click Element    id=ve-selection-overlay
+    Log To Console    Clicked on Dynamic text Plugin
+    Click Element    xpath=//i[@class='mdi mdi-pencil'and contains(text(),'Edit')
+    Log To Console    Clicked on Edit button
+    Click Element    (//span[@class='mdl-button__ripple-container'])[2]
+    Log To Console    Clicked on Save and Close button
+
+Test Case7:3420-Check if added Default text / Dynamic plugin can be deleted.
+    Click Element    id=ve-selection-overlay
+    Log To Console    Clicked on the Text
+    Click Button    css=[ng-click="vm.deletePlugin()"]
+    Element Should Not Be Visible    id=ve-selection-overlay
