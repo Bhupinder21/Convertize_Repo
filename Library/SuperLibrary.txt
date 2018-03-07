@@ -1,0 +1,5 @@
+*** Settings ***
+Resource          ../Keywords/Global.txt
+Resource          ../Keywords/Application_Functions.txt
+Library           ExtendedSelenium2Library
+Library           BuiltIn

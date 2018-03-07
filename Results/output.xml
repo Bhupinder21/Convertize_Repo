@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20180212 16:27:32.822" generator="Robot 3.0.2 (Python 2.7.14 on win32)">
+<suite source="C:\Users\Bhupinder\SeleniumProject1\Convertize.txt" id="s1" name="Convertize">
+<test id="s1-t1" name="TestCase1: Navigating to Convertize Web Page">
+<kw name="Open Convertize Website in Chrome and Maximize">
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>url=${URL1}</arg>
+<arg>browser=chrome</arg>
+</arguments>
+<msg timestamp="20180212 16:27:32.956" level="INFO">Opening browser 'chrome' to base url 'http://rc.convertize.io/'</msg>
+<status status="PASS" endtime="20180212 16:28:06.172" starttime="20180212 16:27:32.955"></status>
+</kw>
+<kw name="Maximize Browser Window" library="ExtendedSelenium2Library">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" endtime="20180212 16:28:07.536" starttime="20180212 16:28:06.172"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>Website Navigated successfully</arg>
+</arguments>
+<status status="PASS" endtime="20180212 16:28:07.536" starttime="20180212 16:28:07.536"></status>
+</kw>
+<status status="PASS" endtime="20180212 16:28:07.536" starttime="20180212 16:27:32.955"></status>
+</kw>
+<kw name="Verify the Home Page title">
+<kw name="Title Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current page title equals `title`.</doc>
+<arguments>
+<arg>${title}</arg>
+</arguments>
+<msg timestamp="20180212 16:28:07.882" level="INFO">Page title is 'Convertize'.</msg>
+<status status="PASS" endtime="20180212 16:28:07.882" starttime="20180212 16:28:07.537"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>Home page title verified</arg>
+</arguments>
+<status status="PASS" endtime="20180212 16:28:07.883" starttime="20180212 16:28:07.883"></status>
+</kw>
+<status status="PASS" endtime="20180212 16:28:07.883" starttime="20180212 16:28:07.537"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>${timeout}</arg>
+</arguments>
+<msg timestamp="20180212 16:28:10.883" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" endtime="20180212 16:28:10.883" starttime="20180212 16:28:07.883"></status>
+</kw>
+<kw name="Input Username">
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=login-email</arg>
+</arguments>
+<msg timestamp="20180212 16:28:10.885" level="INFO">Clicking element 'id=login-email'.</msg>
+<status status="PASS" endtime="20180212 16:28:11.500" starttime="20180212 16:28:10.885"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>id=login-email</arg>
+<arg>@{txt_username}[1]</arg>
+</arguments>
+<msg timestamp="20180212 16:28:11.501" level="INFO">Typing text 'bhupinderkaur2108@gmail.com' into text field 'id=login-email'</msg>
+<status status="PASS" endtime="20180212 16:28:11.669" starttime="20180212 16:28:11.500"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>Entered username</arg>
+</arguments>
+<status status="PASS" endtime="20180212 16:28:11.670" starttime="20180212 16:28:11.669"></status>
+</kw>
+<status status="PASS" endtime="20180212 16:28:11.670" starttime="20180212 16:28:10.884"></status>
+</kw>
+<kw name="Input Passwordpybot -">
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=password</arg>
+</arguments>
+<msg timestamp="20180212 16:28:11.670" level="INFO">Clicking element 'id=password'.</msg>
+<status status="PASS" endtime="20180212 16:28:12.255" starttime="20180212 16:28:11.670"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>id=password</arg>
+<arg>@{txt_password}[0]</arg>
+</arguments>
+<msg timestamp="20180212 16:28:12.256" level="INFO">Typing text 'Passion123' into text field 'id=password'</msg>
+<status status="PASS" endtime="20180212 16:28:12.350" starttime="20180212 16:28:12.255"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>Entered password</arg>
+</arguments>
+<status status="PASS" endtime="20180212 16:28:12.351" starttime="20180212 16:28:12.351"></status>
+</kw>
+<status status="PASS" endtime="20180212 16:28:12.351" starttime="20180212 16:28:11.670"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>${timeout}</arg>
+</arguments>
+<msg timestamp="20180212 16:28:15.352" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" endtime="20180212 16:28:15.352" starttime="20180212 16:28:12.351"></status>
+</kw>
+<kw name="Click on Sign in link">
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=login-submit-btn</arg>
+</arguments>
+<msg timestamp="20180212 16:28:15.354" level="INFO">Clicking element 'id=login-submit-btn'.</msg>
+<status status="PASS" endtime="20180212 16:28:39.839" starttime="20180212 16:28:15.354"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>Clicked on Signon link successfully</arg>
+</arguments>
+<status status="PASS" endtime="20180212 16:28:39.839" starttime="20180212 16:28:39.839"></status>
+</kw>
+<status status="PASS" endtime="20180212 16:28:39.840" starttime="20180212 16:28:15.353"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>${timeout}</arg>
+</arguments>
+<msg timestamp="20180212 16:28:42.840" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" endtime="20180212 16:28:42.840" starttime="20180212 16:28:39.840"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20180212 16:28:46.000" starttime="20180212 16:28:42.840"></status>
+</kw>
+<tags>
+<tag>DEBUG</tag>
+</tags>
+<status status="PASS" endtime="20180212 16:28:46.001" critical="yes" starttime="20180212 16:27:32.955"></status>
+</test>
+<doc>Testing Convertize Website</doc>
+<status status="PASS" endtime="20180212 16:28:46.003" starttime="20180212 16:27:32.825"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
+</total>
+<tag>
+<stat fail="0" pass="1">DEBUG</stat>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="Convertize" pass="1">Convertize</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

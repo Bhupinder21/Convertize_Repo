@@ -1,0 +1,137 @@
+*** Settings ***
+Documentation     Testing Convertize Website
+Library           BuiltIn
+Library           ExtendedSelenium2Library
+
+*** Variable ***
+${URL1}           http://rc.convertize.io/
+${title}          Convertize
+${timeout}        3s
+@{txt_username}    bhupinder.kaur@testingxperts.com    bhupinderkaur2108@gmail.com
+@{txt_password}    Passion123
+@{URL}            http://rc.convertize.io/    https://rc.convertize.io/project/1175
+${username1}      ${EMPTY}
+${password1}      ${EMPTY}
+
+*** Test Cases ***
+TestCase1: Navigating to Convertize Web Page
+    [Tags]    DEBUG
+    [Setup]
+    Open Convertize Website in Chrome and Maximize
+    Verify the Home Page title
+    Sleep    ${timeout}
+    Input Username
+    Input Passwordpybot -
+    Sleep    ${timeout}
+    Click on Sign in link
+    Sleep    ${timeout}
+    [Teardown]    Close browser
+
+TestCase2:3415-Check if Smart Plugins section appear
+    [Tags]
+    Open Convertize Website in Chrome and Maximize
+    Verify the Home Page title
+    Sleep    ${timeout}
+    Input Username
+    Input Passwordpybot -
+    Sleep    ${timeout}
+    Click on Sign in link
+    ${href}    Get Location
+    Log To Console    ${href}
+    Comment    Comment    Location Should Contain    @{URL}[1]
+    Run Keyword If    '${href}'=='@{URL}[1]'    Run Keyword And Return Status    Validate Smart Plugins panel directly after clicking Design button
+    Comment    Run Keyword If    ${href}==@{URL}[1]    Check for Optimise Tab    Click on Design button
+    Run Keyword If    '${href}'=='@{URL}[0]'    Run Keyword And Return Status    Validate Smart Plugins panel for 'My Projects' Tab
+
+Test Case3:3416-Check if smart plugins section can be moved/dragged
+    Sleep    2s
+    Drag And Drop By Offset    xpath=//div[@id='sc-plugin-selection-menu-container']    50    -35
+    Log to console    Smart Plug-ins section dragged/moved to other position
+
+Test Case4:3417-Check if Dynamic Text plugin can be added and previewed.
+    Mouse Over    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]
+    Log To Console    Dynamic Text Plug-in is present
+    Focus    xpath=(//span[@class='ng-binding ng-scope'])[1]
+    Log To Console    Hovered on the help text for Dynamic Text Plug-in
+    ${text}    Get Text    xpath=(//span[@class='ng-binding ng-scope'])[1]
+    Should Be Equal    ${text}    Add dynamic content to your Landing pages
+    Sleep    2s
+    Comment    Drag And Drop    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]    //div[@id='ve-selection-overlay']
+    Drag And Drop By Offset    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]    50    10
+    Log To Console    Please change 2nd locator in Drag and Drop as it would be different according to different testing websites for convertize
+    Log To Console    Dynamic text plug-in drgged/moved to other location
+    Sleep    2s
+    Element Should Be Visible    xpath= //*[@id="ve-selection-box"]
+    Log to console    Dynamic text Plug in has been placed to the Page
+    [Teardown]    Close browser
+
+Test Case5:3418-Check if Dynamic Text added can be edited.
+    Element Should Be Visible    xpath=//div[@id='ve-dialogue-plugin']
+    Log To Console    Dynamic text Smart Plug-in window should be available to edit text
+    Input Text    xpath=//input[@class='mdl-textfield__input ng-pristine ng-valid ng-valid-required ng-touched']    Test to check
+    Log To Console    Text Entered in the text box
+    Click Button    (//span[@class='mdl-button__ripple-container'])[2]
+    Log To Console    Clicked on Save and Continue button
+
+Test Case6:3419-Check if Dynamic Text plugin can be added with no default text.
+    Click Element    id=ve-selection-overlay
+    Log To Console    Clicked on Dynamic text Plugin
+    Click Element    xpath=//i[@class='mdi mdi-pencil'and contains(text(),'Edit')
+    Log To Console    Clicked on Edit button
+    Click Element    (//span[@class='mdl-button__ripple-container'])[1]
+    Log To Console    Clicked on Cancel button
+
+Test Case7:3420-Check if added Default text / Dynamic plugin can be deleted.
+
+*** Keywords ***
+Open Convertize Website in Chrome and Maximize
+    Open Browser    url=${URL1}    browser=chrome
+    Maximize Browser Window
+    Log to console    Website Navigated successfully
+
+Input Username
+    Click Element    id=login-email
+    Input Text    id=login-email    @{txt_username}[1]
+    Log to console    Entered username
+
+Input Passwordpybot -
+    Click Element    id=password
+    Input Text    id=password    @{txt_password}[0]
+    Log to console    Entered password
+
+Verify the Home Page title
+    Title should be    ${title}
+    Log to console    Home page title verified
+
+Click on Sign in link
+    Click Element    id=login-submit-btn
+    Log to console    Clicked on Signon link successfully
+
+Verify the Open Website title
+    Element Should Be Visible    xpath://*[contains(text(), "Installing Convertize is quick and easy")]
+
+Click on Design button
+    Sleep    2s
+    ${status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[@id='sc-plugin-selection-menu-container']
+    Log To Console    ${status}
+    Run Keyword If    '${status}'=='True'    Run Keyword And Return Status    Check for Smart Plugins Panel
+    Run Keyword If    '${status}'=='False'    Run Keyword And Return Status    Click Button    css=[ng-click="vm.canvasHandler.toggleMode()"]
+    ...    AND    Check for Smart Plugins Panel
+
+Validate Smart Plugins panel directly after clicking Design button
+    ${text} =    Get Text    xpath=//i[text()='Optimise']
+    Should Be Equal    ${text}    Optimise
+    Log To Console    User is currently on Optimise Tab
+    Click on Design button
+
+Validate Smart Plugins panel for 'My Projects' Tab
+    Click Link    xpath=//a[contains(@href,'/projects')]
+    Click Element    xpath=//span[@class='project-list-item-access ng-binding ng-scope']
+    Sleep    3s
+    Click Element    xpath=//td[@class='actions']//span[@class='mdl-button__ripple-container']
+    Sleep    3s
+    Validate Smart Plugins panel directly after clicking Design button
+
+Check for Smart Plugins Panel
+    Element Should Be Visible    xpath=//div[@id='sc-plugin-selection-menu-container']
+    Log To Console    Smart Plug-ins section appears

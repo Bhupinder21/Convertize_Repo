@@ -1,0 +1,78 @@
+*** Settings ***
+Resource          ../Library/SuperLibrary.txt
+
+*** Keywords ***
+Open Application and Maximize
+    Open Browser    ${BASE_URL}    ${BROWSER_NAME}
+    Maximize Browser Window
+    Log to console    Website Navigated successfully
+
+Input Username
+    Click Element    id=login-email
+    Input Text    id=login-email    ${USERNAME_3}
+    Log to console    Entered username
+
+Input Application Password
+    Click Element    id=password
+    Input Text    id=password    ${PASSWORD_2}
+    Log to console    Entered password
+
+Verify the Home Page title
+    Title should be    ${TITLE}
+    Log to console    Home page title verified
+
+Click on Sign in link
+    Click Element    id=login-submit-btn
+    Log to console    Clicked on Signon link successfully
+
+Verify the Open Website title
+    Element Should Be Visible    xpath://*[contains(text(), "Installing Convertize is quick and easy")]
+
+Click on Design button
+    Wait Until Element Is Visible    xpath=//div[@id='sc-plugin-selection-menu-container']
+    ${status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[@id='sc-plugin-selection-menu-container']
+    Log To Console    ${status}
+    Run Keyword If    '${status}'=='True'    Check for Smart Plugins Panel
+    Run Keyword If    '${status}'=='False'    Click on Design button only
+
+Validate Smart Plugins panel directly after clicking Design button
+    ${text} =    Get Text    xpath=//i[text()='Optimise']
+    Should Be Equal    ${text}    Optimise
+    Log To Console    User is currently on Optimise Tab
+    Comment    Click Element    css=[ng-click="vm.canvasHandler.toggleMode()"]
+    Comment    Select Frame    id=site-variation-iframe
+    Comment    Verify and Close Push Notification
+    Comment    Unselect Frame
+    Comment    Click Element    css=[ng-click="vm.canvasHandler.toggleMode()"]
+    Comment    Wait Until Element Is Visible    xpath=//li//a[text()='Home']
+    Comment    ${x}    Get Vertical Position    xpath=//li//a[text()='Home']
+    Comment    ${y}    Get Horizontal Position    xpath=//li//a[text()='Home']
+    Click on Design button
+
+Validate Smart Plugins panel for 'My Projects' Tab
+    Click Link    xpath=//a[contains(@href,'/projects')]
+    Click Element    xpath=//span[@class='project-list-item-access ng-binding ng-scope']
+    Click Element    xpath=//td[@class='actions']//span[@class='mdl-button__ripple-container']
+    Validate Smart Plugins panel directly after clicking Design button
+
+Check for Smart Plugins Panel
+    Element Should Be Visible    xpath=//div[@id='sc-plugin-selection-menu-container']
+    Log To Console    Smart Plug-ins section appears
+
+Click on Design button only
+    Click Button    css=[ng-click="vm.canvasHandler.toggleMode()"]
+    Check for Smart Plugins Panel
+
+Login to the Application
+    Open Application and Maximize
+    Input Username
+    Input Application Password
+    Click on Sign in link
+    ${href}    Get Location
+    Run Keyword If    '${href}'=='${BASE_URL}'    Validate Smart Plugins panel for 'My Projects' Tab
+    Run Keyword If    '${href}'=='${PROJECT_URL}'    Validate Smart Plugins panel directly after clicking Design button
+
+Verify and Close Push Notification
+    ${push_notification_status}    Run Keyword And Return Status    Wait Until Element Is Visible    id=pushengage_dialog_content    10s
+    Sleep    5s
+    Run Keyword And Return If    ${push_notification_status}    Click Element    id=pushengage_close_btn

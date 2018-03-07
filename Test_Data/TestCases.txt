@@ -1,5 +1,6 @@
 *** Settings ***
 Resource          ../Keywords/Application_Functions.txt
+Library           ../Library/CustomLibrary.py
 
 *** Test Cases ***
 TestCase1: Navigating to Convertize Web Page
@@ -33,6 +34,7 @@ Test Case3:3416-Check if smart plugins section can be moved/dragged
     Login to the Application
     Drag And Drop By Offset    xpath=//div[@id='sc-plugin-selection-menu-container']    50    -35
     Log to console    Smart Plug-ins section dragged/moved to other position
+    [Teardown]    Close browser
 
 Test Case4:3417-Check if Dynamic Text plugin can be added and previewed.
     Login to the Application
@@ -44,22 +46,51 @@ Test Case4:3417-Check if Dynamic Text plugin can be added and previewed.
     ${text}    Get Text    xpath=(//span[@class='ng-binding ng-scope'])[1]
     Should Be Equal    ${text}    Add dynamic content to your Landing pages
     Wait Until Element Is Visible    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]
-    Drag And Drop By Offset    xpath=//span[@class='content']//span[contains(text(),'Dynamic Text')]    1500    50
-    Sleep    5s
-    Log To Console    Please change 2nd locator in Drag and Drop as it would be different according to different testing websites for convertize
-    Log To Console    Dynamic text plug-in drgged/moved to other location
-    Sleep    2s
+    Sleep    10s
     Comment    Select Frame    id=site-variation-iframe
-    Element Should Be Visible    id=ve-selection-overlay
+    Comment    Mouse Over    id=logo_text
+    Comment    ${STATUS}    Run Keyword And Return Status    Element Should Be Visible    id=logo_text
+    Comment    ${x}    Get Vertical Position    id=logo_text
+    Comment    ${y}    Get Horizontal Position    id=logo_text
+    Comment    ${SIZE}    Get Element Size    id=logo_text
+    Comment    Unselect Frame
+    Sleep    2s
+    Chain Click And Hold    //a[@id='plugin-selection-popover-trigger-1']
+    Chains Perform Now
+    Select Frame    id=site-variation-iframe
+    Log To Console    Dynamic text plug-in drgged/moved to other location
+    Chain Move To Element    id=logo_text
+    Comment    Wait Until Element Is Visible    // scp-inner[text()='Drop plugin here']
+    Chain Release    id=logo_text
+    Chains Perform Now
+    Comment    Select Frame    id=site-variation-iframe
+    Comment    Select Frame    id=site-variation-iframe
+    Wait Until Element Is Visible    id=ve-selection-overlay
+    Comment    Element Should Be Visible    id=ve-selection-overlay
     Log to console    Dynamic text Plug in has been placed to the Page
+    ${SIZE}
+    [Teardown]    Close browser
 
 Test Case5:3418-Check if Dynamic Text added can be edited.
+    Login to the Application
+    Select Frame    id=site-variation-iframe
+    Log To Console    Frame selected
+    Comment    Click Element    id=ve-glass
+    Wait Until Element Is Visible    xpath=//scp[@data-name='dynamic-text']
+    Click Element    xpath=//scp[@data-name='dynamic-text']
+    Comment    Wait Until Element Is Visible    xpath=//*[@id='logo_text']/h1/a/span
+    Comment    Click Element    xpath=//*[@id='logo_text']/h1/a/span
+    Log To Console    Dynamic text panel which we want to edit should be present
+    Comment    Click Element    xpath=//i[@class='mdi mdi-pencil'and contains(text(),'Edit')]
+    Click Element    xpath=(//li[@class='ve-menu-option']/a)[1]
+    Log To Console    Clicked on Edit button
     Element Should Be Visible    xpath=//div[@id='ve-dialogue-plugin']
     Log To Console    Dynamic text Smart Plug-in window should be available to edit text
     Input Text    xpath=//input[@class='mdl-textfield__input ng-pristine ng-valid ng-valid-required ng-touched']    Test to check
     Log To Console    Text Entered in the text box
     Click Button    (//span[@class='mdl-button__ripple-container'])[1]
     Log To Console    Clicked on Cancel button
+    [Teardown]
 
 Test Case6:3419-Check if Dynamic Text plugin can be added with no default text.
     Click Element    id=ve-selection-overlay
@@ -74,3 +105,96 @@ Test Case7:3420-Check if added Default text / Dynamic plugin can be deleted.
     Log To Console    Clicked on the Text
     Click Button    css=[ng-click="vm.deletePlugin()"]
     Element Should Not Be Visible    id=ve-selection-overlay
+
+Test Case8:2597-Check on clicking 'Advanced' in the menu.
+    Login to the Application
+    Select Frame    id=site-variation-iframe
+    Comment    Click Element    id=logo_text
+    Click Element    id=ve-glass
+    Click Element    id=ve-selection-box
+    Comment    Click Element    xpath=//a[contains(text(),'Convertize')]
+    Unselect Frame
+    Wait Until Element Is Visible    xpath=//i[@class='mdi mdi-dots-horizontal']
+    Click Element    xpath=//i[@class='mdi mdi-dots-horizontal']
+    [Teardown]    Close Browser
+
+Test Case9:3502-Check the action on clicking 'Options' in the footer tool bar.
+    [Tags]    Options
+    Login to the Application
+    Wait Until Element Is Visible    xpath=//i[@class='mdi mdi-settings']
+    Click Element    xpath=//i[@class='mdi mdi-settings']
+    Wait Until Element Is Visible    id=wizard-options
+    ${count} =    Get Matching Xpath Count    //a[@class='ca-tabs--tab ng-binding ng-isolate-scope is-active']
+    ${count1} =    Get Matching Xpath Count    //a[@class='ca-tabs--tab ng-binding ng-isolate-scope']
+    Xpath Should Match X Times    //a[@class='ca-tabs--tab ng-binding ng-isolate-scope is-active']    ${count}
+    Xpath Should Match X Times    //a[@class='ca-tabs--tab ng-binding ng-isolate-scope']    ${count1}
+    Log To Console    Currently One Tab is active
+    Log To Console    Currently User is on Experiment Tab for Options Modal
+    Element Should Be Visible    xpath=//i[@class='mdi mdi-link']
+    Log To Console    EXPERIMENT tab is present
+    Element Should Be Visible    xpath=//i[@class='mdi mdi-account-multiple']
+    Log To Console    AUDIENCE tab is present
+    Element Should Be Visible    xpath=//i[@class='mdi mdi-image-filter-center-focus']
+    Log To Console    TRAFFIC tab is present
+    Element Should Be Visible    xpath=//i[@class='mdi mdi-target']
+    Log To Console    GOALS tab is present
+
+Test Case10:3503-Check the action on clicking 'Cancel' button.
+    [Tags]    Options
+    [Timeout]
+    Element Should Be Visible    xpath=//i[@class='mdi mdi-link']
+    Log To Console    EXPERIMENT tab is present
+    Click Element    xpath=//input[@id='url-targeting__match-input-field']
+    Input Text    xpath=//input[@id='url-targeting__match-input-field']    Test123
+    Comment    ${text1}    Get Text    xpath=//input[@id='url-targeting__match-input-field']
+    Comment    Log To Console    ${text1}
+    Comment    Should Be Equal    ${text1}    qatesting.convertize.io:8080/
+    Comment    Click Element    xpath=//input[@id='url-targeting__match-input-field']
+    Clear Element Text    xpath=//input[@id='url-targeting__match-input-field']
+    Log To Console    Cleared the Text for 'Match Criteria' field for field 'Match Type'
+    Click Button    css=[ng-click="close()"]
+    Log To Console    Clicked on Cancel button to close Options Modal Window
+    Wait Until Element Is Visible    xpath=//i[@class='mdi mdi-settings']
+    Click Element    xpath=//i[@class='mdi mdi-settings']
+    Log To Console    Clicked on Options Link on Footer
+    Comment    Element Should Contain    xpath=//input[@id='url-targeting__match-input-field']    qatesting.convertize.io:8080/
+    ${value} =    Execute Javascript    "return arguments[0].text","document.getElementByXpath(//input[@id='url-targeting__match-input-field'])"
+
+Test Case11:3504-Check the functionality under Experiment tab.
+    [Tags]    Options
+    Comment    Click Button    xpath=//div[@class='mdl-cell mdl-cell--7-col edit-in-place ng-scope']
+    Comment    Input Text    123
+    Comment    Wait Until Element Is Visible    xpath=//div[@class='warning ng-scope']
+    Click Element    xpath=//select[@id='url-targeting__match-type-field']
+    Log To Console    Clicked on Match Criteria Drop Down
+    Comment    Select All From List    xpath=//select[@id='url-targeting__match-type-field']
+    @{list}=    Get List Items    xpath=//select[@id='url-targeting__match-type-field']
+    Comment    @{MatchList}    Should Contain Any    @{list}    ignore_case=True
+    Log To Console    All the Elements are visible in Drop Down
+    Input Text    xpath=//input[@id='url-targeting__match-input-field']    Test123
+    Wait Until Element Is Visible    //div[@class='mdl-textfield__error ng-binding ng-scope']
+    Element Should Contain    //div[@class='mdl-textfield__error ng-binding ng-scope']    This criteria doesn't match the page you are optimising.
+    Input Text    xpath=//input[@id='url-targeting__match-input-field']    qatesting.convertize.io:8080/
+    Click Button    css=[ng-click="save()"]
+    [Teardown]
+
+Test Case12:3505-Check the validations on Experiment tab for 'URL contains' match type.
+    [Tags]    Options
+    Sleep    5s
+    Wait Until Element Is Visible    xpath=//i[@class='mdi mdi-settings']
+    Click Element    xpath=//i[@class='mdi mdi-settings']
+    Click Element    xpath=//i[@class='mdi mdi-settings']
+    Log To Console    Clicked on Option Modal link
+    Click Element    xpath=//select[@id='url-targeting__match-type-field']
+    Log To Console    Clicked on Match Criteria Drop Down
+    Click Element    xpath=(//select[@id='url-targeting__match-type-field'])/option[1]
+    Input Text    xpath=//input[@id='url-targeting__match-input-field']    qatesting.convertize.io:8080/
+    Click Button    css=[ng-click="save()"]
+    [Teardown]
+
+Test Case 13:-Check the action on clicking 'Save and Close' button for Experiment tab.
+    [Tags]    Options
+    Wait Until Element Is Visible    xpath=//i[@class='mdi mdi-settings']
+    Element Should Be Visible    xpath=//i[@class='mdi mdi-settings']
+    Log To Console    Save Experiment successfully. User is back on Convertize Edit WIndow
+    [Teardown]    Close Browser

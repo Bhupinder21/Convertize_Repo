@@ -1,0 +1,14 @@
+*** Variables ***
+${BASE_URL}       https://rc.convertize.io/
+${TITLE}          Convertize
+${PROJECT_URL}    https://rc.convertize.io/project/
+${USERNAME_1}     bhupinderkaur2108@gmail.com
+${USERNAME_2}     bhupinder.kaur@testingxperts.com
+${PASSWORD_1}     Passion123
+${PASSWORD_2}     Passion123
+${BROWSER_NAME}    Chrome
+${USERNAME_3}     bhupinder_kaur94@rediff.com
+${PASSWORD_3}     Passion123
+${x}              ${EMPTY}
+${y}              ${EMPTY}
+@{Matchlist}      URL contains    URL does not contain    URL is    URL starts with    URL ends with    URL matches pattern
