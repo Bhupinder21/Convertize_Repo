@@ -6,7 +6,7 @@ ${USERNAME_1}     bhupinderkaur2108@gmail.com
 ${USERNAME_2}     bhupinder.kaur@testingxperts.com
 ${PASSWORD_1}     Passion123
 ${PASSWORD_2}     Passion123
-${BROWSER_NAME}    Chrome
+${BROWSER_NAME}    firefox
 ${USERNAME_3}     bhupinder_kaur94@rediff.com
 ${PASSWORD_3}     Passion123
 ${x}              ${EMPTY}

@@ -146,8 +146,11 @@ Test Case10:3503-Check the action on clicking 'Cancel' button.
     Log To Console    EXPERIMENT tab is present
     Click Element    xpath=//input[@id='url-targeting__match-input-field']
     Input Text    xpath=//input[@id='url-targeting__match-input-field']    Test123
-    Comment    ${text1}    Get Text    xpath=//input[@id='url-targeting__match-input-field']
-    Comment    Log To Console    ${text1}
+    Comment    Wait Until Angular Ready    2s
+    Click Element    model={allowInvalid: true}
+    Log To Console    Clicked on url
+    ${text1}    Get Text    model={allowInvalid: true}
+    Log To Console    ${text1}
     Comment    Should Be Equal    ${text1}    qatesting.convertize.io:8080/
     Comment    Click Element    xpath=//input[@id='url-targeting__match-input-field']
     Clear Element Text    xpath=//input[@id='url-targeting__match-input-field']
@@ -158,7 +161,10 @@ Test Case10:3503-Check the action on clicking 'Cancel' button.
     Click Element    xpath=//i[@class='mdi mdi-settings']
     Log To Console    Clicked on Options Link on Footer
     Comment    Element Should Contain    xpath=//input[@id='url-targeting__match-input-field']    qatesting.convertize.io:8080/
-    ${value} =    Execute Javascript    "return arguments[0].text","document.getElementByXpath(//input[@id='url-targeting__match-input-field'])"
+    Comment    ${value} =    Execute Javascript    "return arguments[0].text","document.getElementByXpath(//input[@id='url-targeting__match-input-field'])"
+    Comment    Wait Until Element Is Visible    xpath=//p[@class='edit-in-place__print ng-binding']
+    Comment    Click Element    button="vmo.pageUrl.editing = true"
+    Comment    Get Alert Message
 
 Test Case11:3504-Check the functionality under Experiment tab.
     [Tags]    Options
@@ -192,7 +198,7 @@ Test Case12:3505-Check the validations on Experiment tab for 'URL contains' matc
     Click Button    css=[ng-click="save()"]
     [Teardown]
 
-Test Case 13:-Check the action on clicking 'Save and Close' button for Experiment tab.
+Test Case 13:3506-Check the action on clicking 'Save and Close' button for Experiment tab.
     [Tags]    Options
     Wait Until Element Is Visible    xpath=//i[@class='mdi mdi-settings']
     Element Should Be Visible    xpath=//i[@class='mdi mdi-settings']

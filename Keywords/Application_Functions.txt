@@ -4,6 +4,7 @@ Resource          ../Library/SuperLibrary.txt
 *** Keywords ***
 Open Application and Maximize
     Open Browser    ${BASE_URL}    ${BROWSER_NAME}
+    Sleep    10s
     Maximize Browser Window
     Log to console    Website Navigated successfully
 
